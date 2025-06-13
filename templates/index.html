@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>AI 퍼스널컬러 진단기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --secondary: #f2f3f7;
+      --accent: #ffb86b;
+      --error: #ffeaea;
+      --error-text: #b00020;
+      --card-shadow: 0 6px 32px 0 rgba(108,99,255,0.08), 0 1.5px 5px 0 rgba(0,0,0,0.04);
+      --border-radius: 22px;
+      --font-main: 'Pretendard', Arial, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f2f3f7 0%, #e7e9f7 100%);
+      font-family: var(--font-main);
+      margin: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 420px;
+      margin: 48px auto;
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      padding: 42px 32px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 2.1rem;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    input[type=file] {
+      font-size: 1rem;
+      border: 2px solid #e7e9f7;
+      border-radius: 12px;
+      padding: 9px 13px;
+      background: #f7f7fb;
+      color: #555;
+      margin-bottom: 12px;
+      transition: border 0.2s;
+    }
+    input[type=file]:focus {
+      border: 2px solid var(--primary);
+      outline: none;
+    }
+    button[type="submit"] {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 13px 0;
+      width: 100%;
+      border-radius: 14px;
+      font-size: 1.11rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 12px #6c63ff22;
+      transition: box-shadow 0.2s;
+      margin-top: 6px;
+      letter-spacing: 0.03em;
+    }
+    button[type="submit"]:hover {
+      background: #554eea;
+      box-shadow: 0 4px 16px #6c63ff33;
+    }
+    /* 가이드 토글 버튼 */
+    .guide-toggle-btn {
+      margin-top: 8px;
+      margin-bottom: 0;
+      background: none;
+      border: none;
+      color: #6c63ff;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1.01rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .guide-toggle-btn:hover {
+      color: #554eea;
+    }
+    .guide-card {
+      width: 100%;
+      background: var(--secondary);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #6c63ff0a;
+      padding: 20px 18px 15px 18px;
+      margin: 10px 0 10px 0;
+      color: #444;
+      font-size: 1.04rem;
+      line-height: 1.6;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    .guide-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.16rem;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .guide-list {
+      margin: 0 0 10px 0;
+      padding-left: 20px;
+    }
+    .guide-list li {
+      margin-bottom: 4px;
+    }
+    .notice {
+      background: #fff8e1;
+      color: #222;
+      border-radius: 13px;
+      padding: 13px 15px 10px 15px;
+      margin-bottom: 0;
+      font-size: 0.99rem;
+      box-shadow: 0 1px 6px #ffb86b22;
+      line-height: 1.6;
+    }
+    .hsv-bar-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+      width: 100%;
+    }
+    .hsv-bar-label {
+      width: 92px;
+      font-weight: 600;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .hsv-bar-container {
+      flex: 1;
+      position: relative;
+      background: #f1f3f5;
+      border-radius: 14px;
+      height: 28px;
+      overflow: hidden;
+      margin: 0 8px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+    }
+    .hsv-bar-fill {
+      height: 100%;
+      min-width: 38px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 12px;
+      font-weight: 600;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .hsv-bar-grade {
+      width: 68px;
+      margin-left: 6px;
+      font-weight: 500;
+      font-size: 0.98rem;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .card {
+      background: var(--secondary);
+      border-radius: 20px;
+      box-shadow: 0 2px 16px #6c63ff0a;
+      padding: 28px 18px 22px 18px;
+      margin-top: 18px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.7s;
+    }
+    .result-title {
+      font-size: 1.22rem;
+      color: #484848;
+      margin-bottom: 10px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+    .season {
+      font-weight: bold;
+      font-size: 1.25rem;
+      padding: 7px 20px;
+      border-radius: 18px;
+      margin-bottom: 13px;
+      margin-right: 0;
+      display: inline-block;
+      box-shadow: 0 1.5px 8px #0001;
+      border: 1.5px solid #e7e9f7;
+    }
+    /* 시즌별 컬러 */
+    .봄클리어, .봄라이트, .봄트루, .봄소프트 { background: #fff5e1; color: #d68f00;}
+    .여름라이트, .여름트루, .여름클리어, .여름소프트 { background: #e7f3fd; color: #2b5a8e;}
+    .가을딥, .가을트루, .가을라이트, .가을소프트 { background: #f7e9d3; color: #7a5a1b;}
+    .겨울딥, .겨울트루, .겨울클리어, .겨울소프트 { background: #e7e9fd; color: #2a2e6b;}
+    .img-preview {
+      display: block;
+      margin: 0 auto 17px auto;
+      border-radius: 15px;
+      max-width: 170px;
+      box-shadow: 0 2px 14px #6c63ff13;
+      border: 2px solid #e7e9f7;
+      background: #fff;
+    }
+    .feature-list {
+      margin: 12px 0 7px 0;
+      padding: 0;
+      list-style: none;
+      font-size: 1rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px 14px;
+    }
+    .feature-list li {
+      background: #fff;
+      border-radius: 10px;
+      padding: 5px 12px;
+      color: #6c63ff;
+      font-weight: 500;
+      box-shadow: 0 1px 4px #6c63ff0a;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+    .season-desc {
+      font-size: 1.08rem;
+      margin-top: 18px;
+      padding: 18px;
+      background: #f6f7fb;
+      border-radius: 14px;
+      color: #495057;
+      box-shadow: 0 1.5px 8px #6c63ff0a;
+      text-align: center;
+    }
+    .card {
+      transition: box-shadow 0.2s;
+    } 
+
+    @media (max-width: 500px) {
+      .container {padding: 18px 3vw 12px 3vw;}
+      .card {padding: 18px 7px 13px 7px;}
+      h2 {font-size: 1.35rem;}
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>AI 퍼스널컬러 진단기</h2>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*" required>
+      <button type="submit">진단하기</button>
+    </form>
+    <button class="guide-toggle-btn" id="toggle-guide">
+      ⓘ 퍼스널 컬러 사용 가이드 보기
+    </button>
+    <div class="guide-card" id="guide-card">
+      <h3>퍼스널 컬러 사용 가이드</h3>
+      <ol class="guide-list">
+        <li>본인의 본래 퍼스널컬러를 확인하고 싶다면 <b>맨얼굴</b>로 시도하세요.</li>
+        <li>화장(입술색, 머리카락색, 눈동자색 등)에 따라 퍼스널컬러를 분류할 수도 있습니다.</li>
+        <li>그날의 날씨, 화장, 부가적인 요소 등 <b>현재 상태</b>의 퍼스널컬러도 확인할 수 있습니다.</li>
+      </ol>
+      <div class="notice">
+        <b>※ 주의사항</b><br>
+        이미지 분석 단계에서 해당 부위(눈/머리카락 등) 추출에 실패할 수 있습니다.<br>
+        <b>원인:</b> 눈이 가려졌거나, 얼굴 각도가 비정상, 머리카락이 잘림 등<br>
+        <span style="color:#b00020;">정면, 밝고 선명한 얼굴 사진을 사용해 주세요.</span>
+      </div>
+    </div>
+    {% if result %}
+    <div class="card">
+      <div class="result-title">진단 결과</div>
+      <span class="season {{result.season}}">{{ result.season }}</span>
+      <img src="data:image/png;base64,{{ img_base64 }}" alt="분석이미지" class="img-preview">
+      <!-- HSV 수평 막대 그래프 -->
+      <div style="width:100%;margin:24px 0 10px 0;">
+        <!-- 채도(S) -->
+        <div class="hsv-bar-row">
+          <div class="hsv-bar-label" style="color:#3b82f6;">채도 (S)</div>
+          <div class="hsv-bar-container">
+            <div class="hsv-bar-fill" style="width:{{ result.skin_s|round(1) }}%;background-color:#3b82f6;">
+              {{ result.skin_s|round(1) }}
+            </div>
+          </div>
+          <div class="hsv-bar-grade" style="color:#3b82f6;">
+            {% if result.skin_s < 40 %}저채도
+            {% elif result.skin_s < 70 %}중채도
+            {% else %}고채도
+            {% endif %}
+          </div>
+        </div>
+        <!-- 명도(V) -->
+        <div class="hsv-bar-row">
+          <div class="hsv-bar-label" style="color:#f59e42;">명도 (V)</div>
+          <div class="hsv-bar-container">
+            <div class="hsv-bar-fill" style="width:{{ (result.skin_v/255*100)|round(1) }}%;background-color:#facc15;">
+              {{ (result.skin_v/255*100)|round(1) }}
+            </div>
+          </div>
+          <div class="hsv-bar-grade" style="color:#f59e42;">
+            {% set v_pct = (result.skin_v/255*100) %}
+            {% if v_pct < 40 %}저명도
+            {% elif v_pct < 70 %}중명도
+            {% else %}고명도
+            {% endif %}
+          </div>
+        </div>
+        <!-- 색상(H) -->
+        <div class="hsv-bar-row">
+          <div class="hsv-bar-label" style="color:#6c63ff;">색상 (H)</div>
+          <div class="hsv-bar-container">
+            <div class="hsv-bar-fill" style="width:{{ (result.skin_h/360*100)|round(1) }}%;background-color:hsl({{ result.skin_h|round(0) }},60%,60%);">
+              {{ result.skin_h|round(1) }}
+            </div>
+          </div>
+          <div class="hsv-bar-grade" style="color:#6c63ff;">
+            {% set h = result.skin_h %}
+            {% if h < 30 or h >= 330 %}레드
+            {% elif h < 90 %}옐로우/그린
+            {% elif h < 150 %}그린/시안
+            {% elif h < 210 %}시안/블루
+            {% elif h < 270 %}블루/마젠타
+            {% else %}마젠타/레드
+            {% endif %}
+          </div>
+          {% if result.confidence %}
+          <div style="color:#f59e42;">
+            <b>신뢰도:</b>
+            <span style="color:#222;">{{ result.confidence|round(1) }}%</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {% if error_message %}
+      <div class="card" style="background:#ffeaea; color:#b00020; font-weight:600; text-align:center;">
+        {{ error_message|safe }}
+      </div>
+    {% endif %}
+  </div>
+  <script>
+    // 아코디언(접기/펼치기) 기능
+    document.getElementById('toggle-guide').onclick = function() {
+      var guide = document.getElementById('guide-card');
+      guide.style.display = (guide.style.display === 'none' || guide.style.display === '') ? 'block' : 'none';
+    }
+    // 페이지 로드시 가이드 닫힘 상태로
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('guide-card').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
