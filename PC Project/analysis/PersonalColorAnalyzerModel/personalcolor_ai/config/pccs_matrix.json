@@ -1,0 +1,98 @@
+{
+    "봄 라이트 (Spring Light)": {
+        "color": {"type": "W", "level_range": [1, 2]},
+        "lightness": {"level_range": [6, 7]},
+        "clear_dull": {"type": "C", "level_or_value": 1},
+        "saturation": {"level_range": [2, 3]}
+    },
+    "봄 웜/트루 (Spring Warm/True)": {
+        "color": {"type": "W", "level_range": [3, 5]},
+        "lightness": {"level_range": [4, 6]},
+        "clear_dull": {"type": "C", "level_range": [1, 2]},
+        "saturation": {"level_range": [3, 4]}
+    },
+    "봄 브라이트 (Spring Bright)": {
+        "color": {"type": "W", "level_range": [2, 4]},
+        "lightness": {"level_range": [5, 7]},
+        "clear_dull": {"type": "C", "level_or_value": 1},
+        "saturation": {"level_range": [4, 5]}
+    },
+    "봄 비비드 (Spring Vivid)": {
+        "color": {"type": "W", "level_range": [3, 5]},
+        "lightness": {"level_range": [5, 6]},
+        "clear_dull": {"type": "C", "level_or_value": 1},
+        "saturation": {"level_range": [5, 5]}
+    },
+    "여름 라이트 (Summer Light)": {
+        "color": {"type": "C", "level_range": [1, 2]},
+        "lightness": {"level_range": [6, 7]},
+        "clear_dull": {"type": "C", "level_range": [1, 2]}, 
+        "saturation": {"level_range": [1, 2]}
+    },
+    "여름 쿨/트루 (Summer Cool/True)": {
+        "color": {"type": "C", "level_range": [3, 5]},
+        "lightness": {"level_range": [4, 6]},
+        "clear_dull": {"type": "T", "level_range": [1, 3]}, 
+        "saturation": {"level_range": [2, 3]}
+    },
+    "여름 소프트/뮤트 (Summer Soft/Mute)": {
+        "color": {"type": "C", "level_range": [1, 3]},
+        "lightness": {"level_range": [3, 5]},
+        "clear_dull": {"type": "T", "level_range": [3, 5]}, 
+        "saturation": {"level_range": [1, 2]}
+    },
+    "여름 페일 (Summer Pale/Graced)": { 
+        "color": {"type": "C", "level_range": [1, 2]},
+        "lightness": {"level_range": [7, 7]}, 
+        "clear_dull": {"type": "T", "level_range": [2, 4]}, 
+        "saturation": {"level_range": [1, 1]} 
+    },
+    "가을 소프트/뮤트 (Autumn Soft/Mute)": {
+        "color": {"type": "W", "level_range": [1, 3]},
+        "lightness": {"level_range": [3, 5]},
+        "clear_dull": {"type": "T", "level_range": [3, 5]},
+        "saturation": {"level_range": [1, 3]}
+    },
+    "가을 웜/트루 (Autumn Warm/True)": {
+        "color": {"type": "W", "level_range": [3, 5]},
+        "lightness": {"level_range": [2, 4]},
+        "clear_dull": {"type": "T", "level_range": [1, 3]}, 
+        "saturation": {"level_range": [3, 4]}
+    },
+    "가을 딥/다크 (Autumn Deep/Dark)": {
+        "color": {"type": "W", "level_range": [2, 5]},
+        "lightness": {"level_range": [1, 3]},
+        "clear_dull": {"type": "T", "level_range": [2, 4]},
+        "saturation": {"level_range": [2, 4]}
+    },
+    "가을 스트롱/리치 (Autumn Strong/Rich)": { 
+        "color": {"type": "W", "level_range": [3, 5]},
+        "lightness": {"level_range": [2, 4]},
+        "clear_dull": {"type": "T", "level_range": [1, 2]}, 
+        "saturation": {"level_range": [4, 5]}
+    },
+    "겨울 브라이트/클리어 (Winter Bright/Clear)": {
+        "color": {"type": "C", "level_range": [2, 4]}, 
+        "lightness": {"level_range": [5, 7]}, 
+        "clear_dull": {"type": "C", "level_or_value": 1}, 
+        "saturation": {"level_range": [4, 5]}
+    },
+    "겨울 쿨/트루 (Winter Cool/True)": {
+        "color": {"type": "C", "level_range": [4, 5]}, 
+        "lightness": {"level_range": [1, 7]}, 
+        "clear_dull": {"type": "C", "level_or_value": 1},
+        "saturation": {"level_range": [3, 5]}
+    },
+    "겨울 딥/다크 (Winter Deep/Dark)": {
+        "color": {"type": "C", "level_range": [2, 5]},
+        "lightness": {"level_range": [1, 3]},
+        "clear_dull": {"type": "C", "level_range": [1, 2]}, 
+        "saturation": {"level_range": [3, 5]}
+    },
+    "겨울 비비드 (Winter Vivid)": { 
+        "color": {"type": "C", "level_range": [3, 5]},
+        "lightness": {"level_range": [2, 5]},
+        "clear_dull": {"type": "C", "level_or_value": 1},
+        "saturation": {"level_range": [5, 5]}
+    }
+}
